@@ -1,36 +1,58 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 30,
+    "height": 32,
+    "margin-top": 6,
+    "margin-left": 10,
+    "margin-right": 10,
+
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "network", "bluetooth", "tray"],
-    
+    "modules-right": ["pulseaudio", "network", "bluetooth", "battery", "tray"],
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate"
+    },
+
     "clock": {
-        "format": "{:%H:%M}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+        "format": "󰥔 {:%H:%M}",
+        "format-alt": "󰸗 {:%A, %B %d, %Y}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
     },
+
     "pulseaudio": {
-        "format": "{volume}% {icon}",
-        "format-muted": "Muted 🔇",
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 Muted",
         "format-icons": {
-            "default": ["🔈", "🔉", "🔊"]
+            "default": ["󰕿", "󰖀", "󰕾"]
         },
-        "on-click": "pavucontrol"
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
     },
+
     "network": {
-        "format-wifi": "{essid} ",
-        "format-ethernet": "Connected ",
-        "format-disconnected": "Disconnected ⚠️",
-        "on-click": "nm-connection-editor"
+        "format-wifi": "󰤨 {essid}",
+        "format-ethernet": "󰈀 Connected",
+        "format-disconnected": "󰤭 Off",
+        "tooltip-format": "󰩟 {ipaddr}/{cidr} via {gwaddr}",
+        "on-click": "nmtui-connect"
     },
+
     "bluetooth": {
-        "format": " {status}",
-        "format-connected": " {device_alias}",
-        "format-disabled": "",
-        "on-click": "blueman-manager"
+        "format": "󰂯 {status}",
+        "format-connected": "󰂱 {device_alias}",
+        "format-disabled": "󰂲 Off",
+        "on-click": "bluetoothctl power toggle"
     },
+
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+
     "tray": {
-        "spacing": 10
+        "spacing": 8
     }
 }
